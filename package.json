@@ -24,10 +24,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/damar-nur-ichwan/investing-scraper.git"
+    "url": "git+https://github.com/damar-nur-ichwan/id-investing-scraper.git"
   },
   "bugs": {
-    "url": "https://github.com/damar-nur-ichwan/investing-scraper/issues"
+    "url": "https://github.com/damar-nur-ichwan/id-investing-scraper/issues"
   },
-  "homepage": "https://github.com/damar-nur-ichwan/investing-scraper#readme"
+  "homepage": "https://github.com/damar-nur-ichwan/id-investing-scraper#readme"
 }
