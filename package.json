@@ -1,0 +1,33 @@
+{
+  "name": "id-investing-scraper",
+  "version": "1.0.0",
+  "description": "_DEVELOPED BY: Damar Nur Ichwan_",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx tsc && eslint . --ext .ts && node dist/index.js"
+  },
+  "keywords": [],
+  "author": "Damar Nur Ichwan",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.7.20",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.0",
+    "eslint": "^8.24.0",
+    "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.12",
+    "fs": "^0.0.1-security"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/damar-nur-ichwan/investing-scraper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/damar-nur-ichwan/investing-scraper/issues"
+  },
+  "homepage": "https://github.com/damar-nur-ichwan/investing-scraper#readme"
+}
