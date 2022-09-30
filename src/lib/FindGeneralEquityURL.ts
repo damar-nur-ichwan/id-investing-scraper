@@ -57,7 +57,10 @@ export default async function FindGeneralEquityURL(code: string) {
         GeneralEquityURL = GeneralEquityURL.replace(val, "");
     });
 
-    return GeneralEquityURL;
+    return {
+      code,
+      url: GeneralEquityURL,
+    };
   } catch (err) {
     console.log("FindGeneralEquityURL:", err.message);
     return GeneralEquityURL;
