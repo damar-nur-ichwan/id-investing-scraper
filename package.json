@@ -20,7 +20,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "cheerio": "^1.0.0-rc.12",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "get-indonesia-time": "^1.0.3"
   },
   "repository": {
     "type": "git",

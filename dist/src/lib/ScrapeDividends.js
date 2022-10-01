@@ -37,64 +37,60 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const cheerio = __importStar(require("cheerio"));
 const axios_1 = __importDefault(require("axios"));
-const ScrapeCompanyProfile_1 = __importDefault(require("./ScrapeCompanyProfile"));
-function FindGeneralEquityURL(code) {
+const get_indonesia_time_1 = __importDefault(require("get-indonesia-time"));
+function default_1(EquityGeneralURL) {
     return __awaiter(this, void 0, void 0, function* () {
+        if (!EquityGeneralURL) {
+            console.error("Dividends:", `Please insert 'EquityGeneralURL' parameter`);
+            return false;
+        }
         let tempAny = "";
         let tempArray = [];
-        let GeneralEquityURL = "NOT_FOUND";
+        const { year, month, date } = (0, get_indonesia_time_1.default)();
+        const value = {
+            updatedAt: parseInt(`${year}${month < 10 ? "0" + month : month}${date < 10 ? "0" + date : date}`),
+            code: "",
+            name: "",
+            dividends: [],
+        };
         try {
-            const url = `https://search.yahoo.com/search?p=%28${code}%29+-+id.investing.com+Indonesia&fr=yfp-t&fr2=p%3Afp%2Cm%3Asb&ei=UTF-8&fp=1`;
-            const { data } = yield axios_1.default.get(url);
+            const { data } = yield axios_1.default.get(`${EquityGeneralURL}-dividends`);
             const $ = cheerio.load(data);
-            //investing
-            $("a").each(function (i, e) {
-                tempAny = $(e).first().attr("href");
-                if (tempAny.includes("https://id.investing.com/equities/") &&
-                    tempAny !== "https://id.investing.com/equities/" &&
-                    tempAny !== "https://id.investing.com/equities/indonesia")
+            //code & name
+            $("h1").each(function (i, e) {
+                tempAny = $(e).first().text();
+                value.code = tempAny
+                    .substring(tempAny.length - 1, tempAny.length - 6)
+                    .replace(")", "")
+                    .replace("(", "")
+                    .replace("TX_p", "CNTX");
+                value.name = tempAny.substring(tempAny.length - 8, 0);
+            });
+            // summary
+            $(".dividendTbl td").each(function (i, e) {
+                tempAny = $(e).first().text();
+                if (tempArray.length < 5) {
                     tempArray = [...tempArray, tempAny];
+                }
+                else {
+                    const newValue = {
+                        exDate: tempArray[0],
+                        dividend: tempArray[1],
+                        payDate: tempArray[3],
+                        yield: tempArray[4],
+                    };
+                    value.dividends = [...value.dividends, newValue];
+                    tempArray = [];
+                    tempArray = [...tempArray, tempAny];
+                }
             });
-            if (typeof tempArray[0] !== "string")
-                return GeneralEquityURL;
-            GeneralEquityURL = tempArray[0].replace("https://id", "https://www");
-            const del = [
-                "-company-profile",
-                "-historical-data",
-                "-related-indices",
-                "-chart",
-                "-advanced-chart",
-                "-financial-summary",
-                "-income-statement",
-                "-balance-sheet",
-                "-cash-flow",
-                "-ratios",
-                "-dividends",
-                "-earnings",
-                "-technical",
-                "-candlestick",
-                "-consensus-estimates",
-                "-commentary",
-                "-scoreboard",
-                "-user-rankings",
-                "-advanced",
-                "-news",
-                "/2",
-            ];
-            del.forEach((val) => {
-                if (GeneralEquityURL.includes(val))
-                    GeneralEquityURL = GeneralEquityURL.replace(val, "");
-            });
-            const res = yield (0, ScrapeCompanyProfile_1.default)(GeneralEquityURL);
-            if (!res || (res && res.code !== code))
-                GeneralEquityURL = "NOT_FOUND";
-            return GeneralEquityURL;
+            return value;
         }
         catch (err) {
-            console.log("FindGeneralEquityURL:", code, "-", err.message);
-            return GeneralEquityURL;
+            console.error("Dividends:", EquityGeneralURL + "-dividends", "-", err.message);
+            return;
         }
     });
 }
-exports.default = FindGeneralEquityURL;
-//# sourceMappingURL=FindGeneralEquityURL.js.map
+exports.default = default_1;
+//# sourceMappingURL=ScrapeDividends.js.map

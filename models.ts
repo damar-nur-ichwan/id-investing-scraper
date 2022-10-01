@@ -12,6 +12,7 @@ export interface DividendValue {
 
 export interface Dividends extends Primary {
   dividends: DividendValue[];
+  updatedAt: number;
 }
 
 export interface topExecutivesValue {
@@ -32,6 +33,7 @@ export interface CompanyProfile extends Primary {
   description: string;
   contact: contactValue;
   topExecutives: topExecutivesValue[];
+  updatedAt: number;
 }
 
 export interface RatioValue {
@@ -42,10 +44,12 @@ export interface RatioValue {
 
 export interface Ratios extends Primary {
   ratios: RatioValue[];
+  updatedAt: number;
 }
 
 export interface FinancialSummary extends Primary {
   summary: string;
+  updatedAt: number;
 }
 
 export interface TechnicalSummary extends Primary {
@@ -53,6 +57,7 @@ export interface TechnicalSummary extends Primary {
   price: number;
   change: number;
   status: string;
+  createdAt: number;
 }
 
 export interface CodeList {

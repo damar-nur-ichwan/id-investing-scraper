@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import axios from "axios";
 import { CompanyProfile, topExecutivesValue } from "../../models";
+import GetIndonesiaTime from "get-indonesia-time";
 
 export default async function (EquityGeneralURL: string) {
   if (!EquityGeneralURL) {
@@ -12,7 +13,14 @@ export default async function (EquityGeneralURL: string) {
   let tempArray = [];
   let tempNumber = 0;
 
+  const { year, month, date } = GetIndonesiaTime();
+
   const value: CompanyProfile = {
+    updatedAt: parseInt(
+      `${year}${month < 10 ? "0" + month : month}${
+        date < 10 ? "0" + date : date
+      }`
+    ),
     code: "",
     name: "",
     description: "",
@@ -102,7 +110,12 @@ export default async function (EquityGeneralURL: string) {
 
     return value;
   } catch (err) {
-    console.error("CompanyProfile:", err.message);
+    console.error(
+      "CompanyProfile:",
+      EquityGeneralURL + "-company-profile",
+      "-",
+      err.message
+    );
     return;
   }
 }

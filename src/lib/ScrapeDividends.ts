@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import axios from "axios";
 import { Dividends, DividendValue } from "../../models";
+import GetIndonesiaTime from "get-indonesia-time";
 
 export default async function (EquityGeneralURL: string) {
   if (!EquityGeneralURL) {
@@ -11,7 +12,13 @@ export default async function (EquityGeneralURL: string) {
   let tempAny = "";
   let tempArray = [];
 
+  const { year, month, date } = GetIndonesiaTime();
   const value: Dividends = {
+    updatedAt: parseInt(
+      `${year}${month < 10 ? "0" + month : month}${
+        date < 10 ? "0" + date : date
+      }`
+    ),
     code: "",
     name: "",
     dividends: [],
@@ -52,7 +59,12 @@ export default async function (EquityGeneralURL: string) {
 
     return value;
   } catch (err) {
-    console.error("Dividends:", err.message);
-    return false;
+    console.error(
+      "Dividends:",
+      EquityGeneralURL + "-dividends",
+      "-",
+      err.message
+    );
+    return;
   }
 }

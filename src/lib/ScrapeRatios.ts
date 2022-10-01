@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import axios from "axios";
 import { Ratios, RatioValue } from "../../models";
+import GetIndonesiaTime from "get-indonesia-time";
 
 export default async function (EquityGeneralURL: string) {
   if (!EquityGeneralURL) {
@@ -13,7 +14,14 @@ export default async function (EquityGeneralURL: string) {
   let tempArray2 = [];
   let tempNumber = 0;
 
+  const { year, month, date } = GetIndonesiaTime();
+
   const value: Ratios = {
+    updatedAt: parseInt(
+      `${year}${month < 10 ? "0" + month : month}${
+        date < 10 ? "0" + date : date
+      }`
+    ),
     code: "",
     name: "",
     ratios: [],
@@ -55,15 +63,14 @@ export default async function (EquityGeneralURL: string) {
           industry: tempArray2[2],
         };
         value.ratios = [...value.ratios, newValue];
-        tempArray2 = [v];
-        tempNumber = 0;
+        tempArray2 = [];
+        tempNumber = -1;
       }
       tempNumber++;
     });
-
     return value;
   } catch (err) {
-    console.error("Ratios:", err.message);
+    console.error("Ratios:", EquityGeneralURL + "-ratios", "-", err.message);
     return;
   }
 }

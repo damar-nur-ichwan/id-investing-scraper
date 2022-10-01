@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import axios from "axios";
 import { TechnicalSummary } from "../../models";
+import GetIndonesiaTime from "get-indonesia-time";
 
 export default async function (EquityGeneralURL: string) {
   if (!EquityGeneralURL) {
@@ -11,6 +12,7 @@ export default async function (EquityGeneralURL: string) {
   let tempAny = "";
   let tempArray = [];
   let different = false;
+  const { year, month, date } = GetIndonesiaTime();
 
   const value: TechnicalSummary = {
     code: "",
@@ -19,6 +21,11 @@ export default async function (EquityGeneralURL: string) {
     price: 0,
     change: 0,
     status: "",
+    createdAt: parseInt(
+      `${year}${month < 10 ? "0" + month : month}${
+        date < 10 ? "0" + date : date
+      }`
+    ),
   };
 
   try {
@@ -110,7 +117,7 @@ export default async function (EquityGeneralURL: string) {
 
     return value;
   } catch (err) {
-    console.error("TechnicalSummary:", err.message);
+    console.error("TechnicalSummary:", EquityGeneralURL, "-", err.message);
     return;
   }
 }

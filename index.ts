@@ -1,17 +1,17 @@
-import CodeList from "./src/lib/CodeList";
-import CompanyProfile from "./src/lib/CompanyProfile";
-import Dividends from "./src/lib/Dividends";
-import FinancialSummary from "./src/lib/FinancialSummary";
+import ScrapeCodeList from "./src/lib/ScrapeCodeList";
+import ScrapeCompanyProfile from "./src/lib/ScrapeCompanyProfile";
+import ScrapeDividends from "./src/lib/ScrapeDividends";
+import ScrapeFinancialSummary from "./src/lib/ScrapeFinancialSummary";
 import FindGeneralEquityURL from "./src/lib/FindGeneralEquityURL";
-import Ratios from "./src/lib/Ratios";
-import TechnicalSummary from "./src/lib/TechnicalSummary";
+import ScrapeRatios from "./src/lib/ScrapeRatios";
+import ScrapeTechnicalSummary from "./src/lib/ScrapeTechnicalSummary";
 
 export {
   FindGeneralEquityURL,
-  CompanyProfile,
-  Dividends,
-  Ratios,
-  FinancialSummary,
-  TechnicalSummary,
-  CodeList,
+  ScrapeCompanyProfile,
+  ScrapeDividends,
+  ScrapeRatios,
+  ScrapeFinancialSummary,
+  ScrapeTechnicalSummary,
+  ScrapeCodeList,
 };

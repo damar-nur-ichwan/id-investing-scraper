@@ -9,13 +9,13 @@ This module has the task of retrieving Indonesian stock data in [investing.com](
 **NPM Package**
 
 ```cmd
-npm i investing-scrapper
+npm i id-investing-scrapper
 ```
 
 **Yarn Package**
 
 ```cmd
-yarn add investing-scrapper
+yarn add id-investing-scrapper
 ```
 
 ## Parameters
@@ -35,17 +35,17 @@ yarn add investing-scrapper
 
 ## Features & Usage
 
-### Company Profile
+### Scrape Company Profile
 
 **ExampleExample:**
 
 ```ts
-import { CompanyProfile } from "investing-scrapper";
+import { ScrapeCompanyProfile } from "investing-scrapper";
 
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
 
-CompanyProfile(GeneralEquityURL).then((res) => console.log(res));
+ScrapeCompanyProfile(GeneralEquityURL).then((res) => console.log(res));
 ```
 
 **Output Model:**
@@ -70,17 +70,17 @@ interface CompanyProfile {
 }
 ```
 
-### Dividends
+### Scrape Dividends
 
 **Example:**
 
 ```ts
-import { Dividends } from "investing-scrapper";
+import { ScrapeDividends } from "investing-scrapper";
 
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
 
-Dividends(GeneralEquityURL).then((res) => console.log(res));
+ScrapeDividends(GeneralEquityURL).then((res) => console.log(res));
 ```
 
 **Output Model:**
@@ -98,17 +98,17 @@ interface Dividends {
 }
 ```
 
-### Ratios
+### Scrape Ratios
 
 **Example:**
 
 ```ts
-import { Ratios } from "investing-scrapper";
+import { ScrapeRatios } from "investing-scrapper";
 
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
 
-Ratios(GeneralEquityURL).then((res) => console.log(res));
+ScrapeRatios(GeneralEquityURL).then((res) => console.log(res));
 ```
 
 **Output Model:**
@@ -125,7 +125,7 @@ interface Ratios {
 }
 ```
 
-### Financial Summary
+### Scrape Financial Summary
 
 **Example:**
 
@@ -135,7 +135,7 @@ import { FinancialSummary } from "investing-scrapper";
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
 
-FinancialSummary(GeneralEquityURL).then((res) => console.log(res));
+ScrapeFinancialSummary(GeneralEquityURL).then((res) => console.log(res));
 ```
 
 **Output Model:**
@@ -148,7 +148,7 @@ interface FinancialSummary {
 }
 ```
 
-### Technical Summary
+### Scrape Technical Summary
 
 **Example:**
 
@@ -158,7 +158,7 @@ import { TechnicalSummary } from "investing-scrapper";
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
 
-TechnicalSummary(GeneralEquityURL).then((res) => console.log(res));
+ScrapeTechnicalSummary(GeneralEquityURL).then((res) => console.log(res));
 ```
 
 **Output Model:**
@@ -174,14 +174,14 @@ interface TechnicalSummary {
 }
 ```
 
-### Code List
+### Scrape Code List
 
 **Example:**
 
 ```ts
-import { CodeList } from "investing-scrapper";
+import { ScrapeCodeList } from "investing-scrapper";
 
-CodeList().then((res) => console.log(res));
+ScrapeCodeList().then((res) => console.log(res));
 ```
 
 **Output Model:**

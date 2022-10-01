@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio";
 import axios from "axios";
+import CompanyProfile from "./ScrapeCompanyProfile";
 
 export default async function FindGeneralEquityURL(code: string) {
   let tempAny = "";
@@ -16,16 +17,13 @@ export default async function FindGeneralEquityURL(code: string) {
       tempAny = $(e).first().attr("href");
 
       if (
-        tempAny.includes("https://id.investing.com/") &&
-        !tempAny.includes("https://id.investing.com/indices/") &&
-        !tempAny.includes("https://id.investing.com/markets/") &&
-        !tempAny.includes("https://id.investing.com/commodities/") &&
-        tempAny !== "https://id.investing.com/" &&
+        tempAny.includes("https://id.investing.com/equities/") &&
         tempAny !== "https://id.investing.com/equities/" &&
         tempAny !== "https://id.investing.com/equities/indonesia"
       )
         tempArray = [...tempArray, tempAny];
     });
+    if (typeof tempArray[0] !== "string") return GeneralEquityURL;
     GeneralEquityURL = tempArray[0].replace("https://id", "https://www");
 
     const del = [
@@ -57,12 +55,12 @@ export default async function FindGeneralEquityURL(code: string) {
         GeneralEquityURL = GeneralEquityURL.replace(val, "");
     });
 
-    return {
-      code,
-      url: GeneralEquityURL,
-    };
+    const res = await CompanyProfile(GeneralEquityURL);
+    if (!res || (res && res.code !== code)) GeneralEquityURL = "NOT_FOUND";
+
+    return GeneralEquityURL;
   } catch (err) {
-    console.log("FindGeneralEquityURL:", err.message);
+    console.log("FindGeneralEquityURL:", code, "-", err.message);
     return GeneralEquityURL;
   }
 }

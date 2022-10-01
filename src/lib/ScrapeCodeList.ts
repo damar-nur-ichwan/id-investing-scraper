@@ -25,6 +25,7 @@ export default async function () {
     });
 
     tempArray2.forEach((v) => {
+      v = v.replace(/\t/g, "");
       if (v.replace(/^\D+/g, "").length === 0 && v.length === 4)
         value.code_list = [...value.code_list, v];
     });
