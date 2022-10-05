@@ -4,7 +4,7 @@ _DEVELOPED BY: Damar Nur Ichwan_
 
 This module has the task of retrieving Indonesian stock data in [investing.com](https://www.investing.com/).
 
-## Instalasi
+## Instalation
 
 **NPM Package**
 
@@ -40,7 +40,7 @@ yarn add id-investing-scrapper
 **ExampleExample:**
 
 ```ts
-import { ScrapeCompanyProfile } from "investing-scrapper";
+import { ScrapeCompanyProfile } from "id-investing-scrapper";
 
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
@@ -75,7 +75,7 @@ interface CompanyProfile {
 **Example:**
 
 ```ts
-import { ScrapeDividends } from "investing-scrapper";
+import { ScrapeDividends } from "id-investing-scrapper";
 
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
@@ -103,7 +103,7 @@ interface Dividends {
 **Example:**
 
 ```ts
-import { ScrapeRatios } from "investing-scrapper";
+import { ScrapeRatios } from "id-investing-scrapper";
 
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
@@ -130,7 +130,7 @@ interface Ratios {
 **Example:**
 
 ```ts
-import { FinancialSummary } from "investing-scrapper";
+import { ScrapeFinancialSummary } from "id-investing-scrapper";
 
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
@@ -153,7 +153,7 @@ interface FinancialSummary {
 **Example:**
 
 ```ts
-import { TechnicalSummary } from "investing-scrapper";
+import { ScrapeTechnicalSummary } from "id-investing-scrapper";
 
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
@@ -179,7 +179,7 @@ interface TechnicalSummary {
 **Example:**
 
 ```ts
-import { ScrapeCodeList } from "investing-scrapper";
+import { ScrapeCodeList } from "id-investing-scrapper";
 
 ScrapeCodeList().then((res) => console.log(res));
 ```
@@ -197,7 +197,7 @@ interface CodeList {
 **Example:**
 
 ```ts
-import { FindGeneralEquityURL } from "investing-scrapper";
+import { FindGeneralEquityURL } from "id-investing-scrapper";
 
 const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
