@@ -38,45 +38,46 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cheerio = __importStar(require("cheerio"));
 const axios_1 = __importDefault(require("axios"));
 const get_indonesia_time_1 = __importDefault(require("get-indonesia-time"));
-function default_1(EquityGeneralURL) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (!EquityGeneralURL) {
-            console.error("Dividends:", `Please insert 'EquityGeneralURL' parameter`);
-            return false;
-        }
-        let tempAny = "";
-        const { year, month, date } = (0, get_indonesia_time_1.default)();
-        const value = {
-            updatedAt: parseInt(`${year}${month < 10 ? "0" + month : month}${date < 10 ? "0" + date : date}`),
-            code: "",
-            name: "",
-            summary: "",
-        };
-        try {
-            const { data } = yield axios_1.default.get(`${EquityGeneralURL}-financial-summary`);
-            const $ = cheerio.load(data);
-            //code & name
-            $("h1").each(function (i, e) {
-                tempAny = $(e).first().text();
-                value.code = tempAny
-                    .substring(tempAny.length - 1, tempAny.length - 6)
-                    .replace(")", "")
-                    .replace("(", "")
-                    .replace("TX_p", "CNTX");
-                value.name = tempAny.substring(tempAny.length - 8, 0);
-            });
-            // summary
-            $(".instrumentSummaryBody").each(function (i, e) {
-                tempAny = $(e).first().text().replace(/\n/g, "");
-                value.summary = tempAny;
-            });
-            return value;
-        }
-        catch (err) {
-            console.error("FinancialSummary:", EquityGeneralURL + "-financial-summary", "-", err.message);
+const utils_1 = require("../utils");
+exports.default = (EquityGeneralURL) => __awaiter(void 0, void 0, void 0, function* () {
+    let tempAny = "";
+    const { year, month, date } = (0, get_indonesia_time_1.default)();
+    const value = {
+        updatedAt: parseInt(`${year}${month < 10 ? "0" + month : month}${date < 10 ? "0" + date : date}`),
+        code: "",
+        name: "",
+        summary: "",
+    };
+    try {
+        const { data } = yield axios_1.default.get(`${EquityGeneralURL}-financial-summary`);
+        if (!data)
             return;
-        }
-    });
-}
-exports.default = default_1;
+        const $ = cheerio.load(data);
+        //code & name
+        $("h1").each(function (i, e) {
+            tempAny = $(e).first().text();
+            value.code = tempAny
+                .substring(tempAny.length - 1, tempAny.length - 6)
+                .replace(")", "")
+                .replace("(", "")
+                .replace("TX_p", "CNTX");
+            value.name = tempAny.substring(tempAny.length - 8, 0);
+        });
+        // summary
+        $(".instrumentSummaryBody").each(function (i, e) {
+            tempAny = $(e).first().text().replace(/\n/g, "");
+            value.summary = tempAny;
+        });
+        return value;
+    }
+    catch (err) {
+        (0, utils_1.ConsoleError)({
+            path: __filename,
+            functionName: "ScrapeFinancialSummary",
+            err,
+            params: { EquityGeneralURL },
+        });
+        return;
+    }
+});
 //# sourceMappingURL=ScrapeFinancialSummary.js.map

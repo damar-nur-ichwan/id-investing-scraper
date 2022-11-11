@@ -2,15 +2,11 @@ import * as cheerio from "cheerio";
 import axios from "axios";
 import { CompanyProfile, topExecutivesValue } from "../../models";
 import GetIndonesiaTime from "get-indonesia-time";
+import { ConsoleError } from "../utils";
 
-export default async function (EquityGeneralURL: string) {
-  if (!EquityGeneralURL) {
-    console.error("Dividends:", `Please insert 'EquityGeneralURL' parameter`);
-    return false;
-  }
-
-  let tempAny = "";
-  let tempArray = [];
+export default async (EquityGeneralURL: string) => {
+  let tempAny: string | undefined = "";
+  let tempArray: typeof tempAny[] = [];
   let tempNumber = 0;
 
   const { year, month, date } = GetIndonesiaTime();
@@ -34,6 +30,7 @@ export default async function (EquityGeneralURL: string) {
   };
   try {
     const { data } = await axios.get(`${EquityGeneralURL}-company-profile`);
+    if (!data) return;
     const $ = cheerio.load(data);
 
     //code & name
@@ -110,12 +107,12 @@ export default async function (EquityGeneralURL: string) {
 
     return value;
   } catch (err) {
-    console.error(
-      "CompanyProfile:",
-      EquityGeneralURL + "-company-profile",
-      "-",
-      err.message
-    );
+    ConsoleError({
+      path: __filename,
+      functionName: "ScrapeCompanyProfile",
+      err,
+      params: { EquityGeneralURL },
+    });
     return;
   }
-}
+};

@@ -1,22 +1,24 @@
 import * as cheerio from "cheerio";
 import axios from "axios";
 import CompanyProfile from "./ScrapeCompanyProfile";
+import { ConsoleError } from "../utils";
 
-export default async function FindGeneralEquityURL(code: string) {
-  let tempAny = "";
-  let tempArray = [];
+export default async (code: string) => {
+  let tempAny: string | undefined = "";
+  let tempArray: typeof tempAny[] = [];
   let GeneralEquityURL = "NOT_FOUND";
 
   try {
     const url = `https://search.yahoo.com/search?p=%28${code}%29+-+id.investing.com+Indonesia&fr=yfp-t&fr2=p%3Afp%2Cm%3Asb&ei=UTF-8&fp=1`;
     const { data } = await axios.get(url);
+    if (!data) return;
     const $ = cheerio.load(data);
 
     //investing
     $("a").each(function (i, e) {
       tempAny = $(e).first().attr("href");
-
       if (
+        tempAny &&
         tempAny.includes("https://id.investing.com/equities/") &&
         tempAny !== "https://id.investing.com/equities/" &&
         tempAny !== "https://id.investing.com/equities/indonesia"
@@ -60,7 +62,12 @@ export default async function FindGeneralEquityURL(code: string) {
 
     return GeneralEquityURL;
   } catch (err) {
-    console.log("FindGeneralEquityURL:", code, "-", err.message);
-    return GeneralEquityURL;
+    ConsoleError({
+      path: __filename,
+      functionName: "FindGeneralEquityURL",
+      err,
+      params: { code },
+    });
+    return;
   }
-}
+};

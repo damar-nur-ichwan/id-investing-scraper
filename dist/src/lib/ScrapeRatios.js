@@ -38,66 +38,67 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cheerio = __importStar(require("cheerio"));
 const axios_1 = __importDefault(require("axios"));
 const get_indonesia_time_1 = __importDefault(require("get-indonesia-time"));
-function default_1(EquityGeneralURL) {
-    return __awaiter(this, void 0, void 0, function* () {
-        if (!EquityGeneralURL) {
-            console.error("Dividends:", `Please insert 'EquityGeneralURL' parameter`);
-            return false;
-        }
-        let tempAny = "";
-        let tempArray1 = [];
-        let tempArray2 = [];
-        let tempNumber = 0;
-        const { year, month, date } = (0, get_indonesia_time_1.default)();
-        const value = {
-            updatedAt: parseInt(`${year}${month < 10 ? "0" + month : month}${date < 10 ? "0" + date : date}`),
-            code: "",
-            name: "",
-            ratios: [],
-        };
-        try {
-            const { data } = yield axios_1.default.get(`${EquityGeneralURL}-ratios`);
-            const $ = cheerio.load(data);
-            //code & name
-            $("h1").each(function (i, e) {
-                tempAny = $(e).first().text();
-                value.code = tempAny
-                    .substring(tempAny.length - 1, tempAny.length - 6)
-                    .replace(")", "")
-                    .replace("(", "")
-                    .replace("TX_p", "CNTX");
-                value.name = tempAny.substring(tempAny.length - 8, 0);
-            });
-            // ratios
-            $(".ratioTable td").each(function (i, e) {
-                tempAny = $(e).first().text();
-                if (!tempAny.includes("\n") &&
-                    (tempAny.match(/[a-zA-Z0-9]/g) || tempAny === "-") &&
-                    tempAny !== "Efficiency")
-                    tempArray1 = [...tempArray1, tempAny];
-            });
-            tempArray1.forEach((v) => {
-                if (tempNumber <= 2)
-                    tempArray2 = [...tempArray2, v];
-                if (tempNumber == 2) {
-                    const newValue = {
-                        name: tempArray2[0],
-                        company: tempArray2[1],
-                        industry: tempArray2[2],
-                    };
-                    value.ratios = [...value.ratios, newValue];
-                    tempArray2 = [];
-                    tempNumber = -1;
-                }
-                tempNumber++;
-            });
-            return value;
-        }
-        catch (err) {
-            console.error("Ratios:", EquityGeneralURL + "-ratios", "-", err.message);
+const utils_1 = require("../utils");
+exports.default = (EquityGeneralURL) => __awaiter(void 0, void 0, void 0, function* () {
+    let tempAny = "";
+    let tempArray1 = [];
+    let tempArray2 = [];
+    let tempNumber = 0;
+    const { year, month, date } = (0, get_indonesia_time_1.default)();
+    const value = {
+        updatedAt: parseInt(`${year}${month < 10 ? "0" + month : month}${date < 10 ? "0" + date : date}`),
+        code: "",
+        name: "",
+        ratios: [],
+    };
+    try {
+        const { data } = yield axios_1.default.get(`${EquityGeneralURL}-ratios`);
+        if (!data)
             return;
-        }
-    });
-}
-exports.default = default_1;
+        const $ = cheerio.load(data);
+        //code & name
+        $("h1").each(function (i, e) {
+            tempAny = $(e).first().text();
+            value.code = tempAny
+                .substring(tempAny.length - 1, tempAny.length - 6)
+                .replace(")", "")
+                .replace("(", "")
+                .replace("TX_p", "CNTX");
+            value.name = tempAny.substring(tempAny.length - 8, 0);
+        });
+        // ratios
+        $(".ratioTable td").each(function (i, e) {
+            tempAny = $(e).first().text();
+            if (!tempAny.includes("\n") &&
+                (tempAny.match(/[a-zA-Z0-9]/g) || tempAny === "-") &&
+                tempAny !== "Efficiency")
+                tempArray1 = [...tempArray1, tempAny];
+        });
+        tempArray1.forEach((v) => {
+            if (tempNumber <= 2)
+                tempArray2 = [...tempArray2, v];
+            if (tempNumber == 2) {
+                const newValue = {
+                    name: tempArray2[0],
+                    company: tempArray2[1],
+                    industry: tempArray2[2],
+                };
+                value.ratios = [...value.ratios, newValue];
+                tempArray2 = [];
+                tempNumber = -1;
+            }
+            tempNumber++;
+        });
+        return value;
+    }
+    catch (err) {
+        (0, utils_1.ConsoleError)({
+            path: __filename,
+            functionName: "ScrapeRatios",
+            err,
+            params: { EquityGeneralURL },
+        });
+        return;
+    }
+});
 //# sourceMappingURL=ScrapeRatios.js.map

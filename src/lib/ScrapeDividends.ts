@@ -2,15 +2,11 @@ import * as cheerio from "cheerio";
 import axios from "axios";
 import { Dividends, DividendValue } from "../../models";
 import GetIndonesiaTime from "get-indonesia-time";
+import { ConsoleError } from "../utils";
 
-export default async function (EquityGeneralURL: string) {
-  if (!EquityGeneralURL) {
-    console.error("Dividends:", `Please insert 'EquityGeneralURL' parameter`);
-    return false;
-  }
-
-  let tempAny = "";
-  let tempArray = [];
+export default async (EquityGeneralURL: string) => {
+  let tempAny: string | undefined = "";
+  let tempArray: typeof tempAny[] = [];
 
   const { year, month, date } = GetIndonesiaTime();
   const value: Dividends = {
@@ -26,6 +22,7 @@ export default async function (EquityGeneralURL: string) {
 
   try {
     const { data } = await axios.get(`${EquityGeneralURL}-dividends`);
+    if (!data) return;
     const $ = cheerio.load(data);
 
     //code & name
@@ -59,12 +56,12 @@ export default async function (EquityGeneralURL: string) {
 
     return value;
   } catch (err) {
-    console.error(
-      "Dividends:",
-      EquityGeneralURL + "-dividends",
-      "-",
-      err.message
-    );
+    ConsoleError({
+      path: __filename,
+      functionName: "ScrapeDividends",
+      err,
+      params: { EquityGeneralURL },
+    });
     return;
   }
-}
+};

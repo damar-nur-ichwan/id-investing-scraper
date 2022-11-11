@@ -1,10 +1,11 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { CodeList } from "../../models";
+import { ConsoleError } from "../utils";
 
-export default async function () {
-  let tempArray1 = [];
-  let tempArray2 = [];
+export default async () => {
+  let tempArray1: string[] = [];
+  let tempArray2: string[] = [];
 
   const value: CodeList = {
     code_list: [],
@@ -14,6 +15,7 @@ export default async function () {
     const { data } = await axios.get(
       "https://britama.com/index.php/perusahaan-tercatat-di-bei/"
     );
+    if (!data) return;
     const $ = cheerio.load(data);
 
     //id
@@ -31,7 +33,10 @@ export default async function () {
     });
     return value;
   } catch (err) {
-    console.error("CodeList:", err.message);
-    return;
+    return ConsoleError({
+      path: __filename,
+      functionName: "ScrapeCodeList",
+      err,
+    });
   }
-}
+};

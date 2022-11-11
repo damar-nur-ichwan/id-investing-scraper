@@ -1,3 +1,10 @@
+export interface ConsoleError {
+  path: string;
+  functionName: string;
+  err: unknown;
+  params?: object;
+}
+
 export interface Primary {
   code: string;
   name: string;

@@ -2,14 +2,10 @@ import * as cheerio from "cheerio";
 import axios from "axios";
 import { FinancialSummary } from "../../models";
 import GetIndonesiaTime from "get-indonesia-time";
+import { ConsoleError } from "../utils";
 
-export default async function (EquityGeneralURL: string) {
-  if (!EquityGeneralURL) {
-    console.error("Dividends:", `Please insert 'EquityGeneralURL' parameter`);
-    return false;
-  }
-
-  let tempAny = "";
+export default async (EquityGeneralURL: string) => {
+  let tempAny: string | undefined = "";
 
   const { year, month, date } = GetIndonesiaTime();
 
@@ -26,6 +22,7 @@ export default async function (EquityGeneralURL: string) {
 
   try {
     const { data } = await axios.get(`${EquityGeneralURL}-financial-summary`);
+    if (!data) return;
     const $ = cheerio.load(data);
 
     //code & name
@@ -47,12 +44,12 @@ export default async function (EquityGeneralURL: string) {
 
     return value;
   } catch (err) {
-    console.error(
-      "FinancialSummary:",
-      EquityGeneralURL + "-financial-summary",
-      "-",
-      err.message
-    );
+    ConsoleError({
+      path: __filename,
+      functionName: "ScrapeFinancialSummary",
+      err,
+      params: { EquityGeneralURL },
+    });
     return;
   }
-}
+};

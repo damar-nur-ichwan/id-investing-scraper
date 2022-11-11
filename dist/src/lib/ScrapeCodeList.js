@@ -37,36 +37,39 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const cheerio = __importStar(require("cheerio"));
-function default_1() {
-    return __awaiter(this, void 0, void 0, function* () {
-        let tempArray1 = [];
-        let tempArray2 = [];
-        const value = {
-            code_list: [],
-        };
-        try {
-            const { data } = yield axios_1.default.get("https://britama.com/index.php/perusahaan-tercatat-di-bei/");
-            const $ = cheerio.load(data);
-            //id
-            $(".entry-content").each(function (i, e) {
-                tempArray1 = $(e).first().text().split(`\n`);
-                tempArray1.forEach((v) => {
-                    if (v.length === 4 && v != "Kode")
-                        tempArray2 = [...tempArray2, v];
-                });
-            });
-            tempArray2.forEach((v) => {
-                v = v.replace(/\t/g, "");
-                if (v.replace(/^\D+/g, "").length === 0 && v.length === 4)
-                    value.code_list = [...value.code_list, v];
-            });
-            return value;
-        }
-        catch (err) {
-            console.error("CodeList:", err.message);
+const utils_1 = require("../utils");
+exports.default = () => __awaiter(void 0, void 0, void 0, function* () {
+    let tempArray1 = [];
+    let tempArray2 = [];
+    const value = {
+        code_list: [],
+    };
+    try {
+        const { data } = yield axios_1.default.get("https://britama.com/index.php/perusahaan-tercatat-di-bei/");
+        if (!data)
             return;
-        }
-    });
-}
-exports.default = default_1;
+        const $ = cheerio.load(data);
+        //id
+        $(".entry-content").each(function (i, e) {
+            tempArray1 = $(e).first().text().split(`\n`);
+            tempArray1.forEach((v) => {
+                if (v.length === 4 && v != "Kode")
+                    tempArray2 = [...tempArray2, v];
+            });
+        });
+        tempArray2.forEach((v) => {
+            v = v.replace(/\t/g, "");
+            if (v.replace(/^\D+/g, "").length === 0 && v.length === 4)
+                value.code_list = [...value.code_list, v];
+        });
+        return value;
+    }
+    catch (err) {
+        return (0, utils_1.ConsoleError)({
+            path: __filename,
+            functionName: "ScrapeCodeList",
+            err,
+        });
+    }
+});
 //# sourceMappingURL=ScrapeCodeList.js.map

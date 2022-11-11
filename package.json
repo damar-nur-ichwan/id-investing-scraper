@@ -1,11 +1,11 @@
 {
   "name": "id-investing-scraper",
-  "version": "1.0.4",
+  "version": "1.0.17",
   "description": "_DEVELOPED BY: Damar Nur Ichwan_",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx tsc && eslint . --ext .ts && node dist/index.js"
+    "start": "npx tsc && eslint . --ext .ts --fix && node dist/index.js"
   },
   "keywords": [],
   "author": "Damar Nur Ichwan",
