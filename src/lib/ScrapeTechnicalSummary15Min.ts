@@ -8,7 +8,7 @@ export default async (EquityGeneralURL: string) => {
   let tempAny: string | undefined = "";
   let tempArray: typeof tempAny[] = [];
   let different = false;
-  const { year, month, date, hours } = GetIndonesiaTime();
+  const { year, month, date, hours, minutes } = GetIndonesiaTime();
 
   const value: TechnicalSummary = {
     code: "",
@@ -20,7 +20,9 @@ export default async (EquityGeneralURL: string) => {
     createdAt: parseInt(
       `${year}${month < 10 ? "0" + month : month}${
         date < 10 ? "0" + date : date
-      }${hours < 10 ? "0" + hours : hours}`
+      }${hours < 10 ? "0" + hours : hours}${
+        minutes < 10 ? "0" + minutes : minutes
+      }`
     ),
   };
 
