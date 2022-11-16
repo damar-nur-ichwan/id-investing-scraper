@@ -5,6 +5,8 @@ import ScrapeFinancialSummary from "./src/lib/ScrapeFinancialSummary";
 import FindGeneralEquityURL from "./src/lib/FindGeneralEquityURL";
 import ScrapeRatios from "./src/lib/ScrapeRatios";
 import ScrapeTechnicalSummary from "./src/lib/ScrapeTechnicalSummary";
+import ScrapeTechnicalSummaryHourly from "./src/lib/ScrapeTechnicalSummaryHourly";
+import ScrapeTechnicalSummary15Min from "./src/lib/ScrapeTechnicalSummary15Min";
 
 export {
   FindGeneralEquityURL,
@@ -14,4 +16,6 @@ export {
   ScrapeFinancialSummary,
   ScrapeTechnicalSummary,
   ScrapeCodeList,
+  ScrapeTechnicalSummaryHourly,
+  ScrapeTechnicalSummary15Min,
 };

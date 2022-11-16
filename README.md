@@ -148,7 +148,7 @@ interface FinancialSummary {
 }
 ```
 
-### Scrape Technical Summary
+### Scrape Technical Summary - daily
 
 **Example:**
 
@@ -159,6 +159,60 @@ const BBCA = "https://www.investing.com/equities/bnk-central-as";
 const GeneralEquityURL = BBCA;
 
 ScrapeTechnicalSummary(GeneralEquityURL).then((res) => console.log(res));
+```
+
+**Output Model:**
+
+```ts
+interface TechnicalSummary {
+  code: string;
+  name: string;
+  volume: number;
+  price: number;
+  change: number;
+  status: string;
+}
+```
+
+### Scrape Technical Summary - hourly
+
+**Example:**
+
+```ts
+import { ScrapeTechnicalSummary } from "id-investing-scrapper";
+
+const BBCA = "https://www.investing.com/equities/bnk-central-as";
+const GeneralEquityURL = BBCA;
+
+ScrapeTechnicalSummaryHourly(GeneralEquityURL).then((res) => console.log(res));
+```
+
+**Output Model:**
+
+```ts
+interface TechnicalSummary {
+  code: string;
+  name: string;
+  volume: number;
+  price: number;
+  change: number;
+  status: string;
+}
+```
+
+### Scrape Technical Summary - 15 min
+
+**Example:**
+
+```ts
+import { ScrapeTechnicalSummary } from "id-investing-scrapper";
+
+const BBCA = "https://www.investing.com/equities/bnk-central-as";
+const GeneralEquityURL = BBCA;
+
+ScrapeTechnicalSummaryHourly15Min(GeneralEquityURL).then((res) =>
+  console.log(res)
+);
 ```
 
 **Output Model:**
