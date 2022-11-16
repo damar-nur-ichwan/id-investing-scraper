@@ -1,6 +1,6 @@
 {
   "name": "id-investing-scraper",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "_DEVELOPED BY: Damar Nur Ichwan_",
   "main": "dist/index.js",
   "scripts": {
