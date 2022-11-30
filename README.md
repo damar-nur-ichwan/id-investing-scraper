@@ -9,13 +9,13 @@ This module has the task of retrieving Indonesian stock data in [investing.com](
 **NPM Package**
 
 ```cmd
-npm i id-investing-scrapper
+npm i id-investing-scraper
 ```
 
 **Yarn Package**
 
 ```cmd
-yarn add id-investing-scrapper
+yarn add id-investing-scraper
 ```
 
 ## Parameters
