@@ -1,6 +1,6 @@
 _DEVELOPED BY: Damar Nur Ichwan_
 
-# INVESTING SCRAPPER
+# INVESTING SCRAPER
 
 This module has the task of retrieving Indonesian stock data in [investing.com](https://www.investing.com/).
 
